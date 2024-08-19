@@ -57,3 +57,17 @@ tbl_summary(
 	modify_footnote(update = everything() ~ NA) |>
 	modify_header(label = "**Variable**", p.value = "**P**")
 
+install.packages("cardx")
+tbl_summary(
+	nlsy,
+	by =. sex_cat,
+	include = c(region_cat, race_eth_cat, income, sleep_wkdy, sleep_wknd),
+label = list(
+	race_eth_cat ~ "Race/Ethnicity",
+	region_cat ~ "Region",
+	income ~ "Income",
+	sleep_wkdy ~ "Sleep Weekday",
+	sleep_wknd ~ "Sleep Weekend" )
+
+)
+
