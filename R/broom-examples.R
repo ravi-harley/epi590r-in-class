@@ -48,3 +48,5 @@ tidy(logistic_model, conf.int = TRUE, exponentiate = TRUE) |>
 	geom_errorbar() +
 	facet_grid(cols = vars(variable), scales = "free", space = "free") +
 	scale_y_log10()
+
+install.packages("sandwich")

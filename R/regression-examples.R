@@ -12,7 +12,7 @@ nlsy <- read_csv(here::here("data", "raw", "nlsy.csv"),
 				 race_eth_cat = factor(race_eth, labels = c("Hispanic", "Black", "Non-Black, Non-Hispanic")),
 				 eyesight_cat = factor(eyesight, labels = c("Excellent", "Very good", "Good", "Fair", "Poor")),
 				 glasses_cat = factor(glasses, labels = c("No", "Yes")))
-
+install.packages("broom.helpers")
 
 # Univariate regression
 
@@ -95,3 +95,38 @@ tbl_int <- tbl_regression(
 
 tbl_merge(list(tbl_no_int, tbl_int),
 					tab_spanner = c("**Model 1**", "**Model 2**"))
+
+tbl_uvregression(
+	nlsy,
+	x = sex_cat,
+	include = c(nsibs, sleep_wkdy, sleep_wknd, income),
+	method = lm)
+
+
+tbl_uvregression(
+	nlsy,
+	y = nsibs,
+	include = c(sex_cat, race_eth_cat,
+							eyesight_cat),
+	label = list(
+		sex_cat ~ "Sex",
+		race_eth_cat ~ "Race/Ethnicity",
+		eyesight_cat ~ "Eyesight"),
+	method = glm,
+	method.args = list(family = poisson()),
+	exponentiate = TRUE)
+
+tbl_uvregression(
+	nlsy,
+	y = glasses,
+	include = c(sex_cat,
+							eyesight_cat),
+	label = list(
+		sex_cat ~ "Sex",
+		eyesight_cat ~ "Eyesight"),
+	method = glm,
+	method.args = list(family = binomial(link = "log")),
+	exponentiate = TRUE,
+	)
+
+
